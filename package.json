@@ -1,0 +1,21 @@
+{
+  "name": "bug-tracker-nodejs-mongodb",
+  "version": "1.0.0",
+  "description": "Bug Tracker Application Using NodeJS And MongoDB",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Vikrant Kalyan",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "datatables.net": "^2.1.8",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "jquery": "^3.7.1",
+    "mongoose": "^8.8.4"
+  }
+}
