@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bug Tracker</title>
+  <link
+    rel="stylesheet"
+    href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css"
+  />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+</head>
+<body>
+  <h1>Bug Tracker Application</h1>
+
+  <!-- Bug Form -->
+  <form id="bugForm">
+    <input type="text" name="title" placeholder="Bug Title" required />
+    <textarea name="description" placeholder="Bug Description" required></textarea>
+    <input type="text" name="assignee" placeholder="Assignee Name" required />
+    <button type="submit">Add Bug</button>
+  </form>
+
+  <!-- Bug Table -->
+  <table id="bugTable" class="display">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Assignee</th>
+        <th>Time</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    $(document).ready(function () {
+      const loadBugs = () => {
+        $.get("/api/bugs", (data) => {
+          const rows = data.map(
+            (bug) =>
+              `<tr>
+                <td>${bug.title}</td>
+                <td>${bug.description}</td>
+                <td>${bug.assignee}</td>
+                <td>${new Date(bug.time).toLocaleString()}</td>
+                <td>${bug.status}</td>
+              </tr>`
+          );
+          $("#bugTable tbody").html(rows.join(""));
+          $("#bugTable").DataTable();
+        });
+      };
+
+      $("#bugForm").submit(function (e) {
+        e.preventDefault();
+        const formData = $(this).serialize();
+        $.post("/api/bugs", formData, () => loadBugs());
+      });
+
+      loadBugs();
+    });
+  </script>
+</body>
+</html>
