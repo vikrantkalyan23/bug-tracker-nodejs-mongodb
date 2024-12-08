@@ -1,11 +1,14 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
+
+app.use(cors());
 
 app.set("view engine", "ejs");
 app.set("views", "views");
@@ -41,5 +44,5 @@ cron.schedule("0 0 * * *", async () => {
 });
 
 // Start Server
-const PORT = 5000;
+const PORT =5050;
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));

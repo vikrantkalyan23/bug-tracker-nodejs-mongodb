@@ -35,32 +35,31 @@
   </table>
 
   <script>
-    $(document).ready(function () {
-      const loadBugs = () => {
-        $.get("/api/bugs", (data) => {
-          const rows = data.map(
-            (bug) =>
-              `<tr>
-                <td>${bug.title}</td>
-                <td>${bug.description}</td>
-                <td>${bug.assignee}</td>
-                <td>${new Date(bug.time).toLocaleString()}</td>
-                <td>${bug.status}</td>
-              </tr>`
-          );
-          $("#bugTable tbody").html(rows.join(""));
-          $("#bugTable").DataTable();
-        });
-      };
+  $(document).ready(function () {
+    const apiUrl = "http://localhost:5050/api/bugs"; // Adjust this if the backend URL is different.
 
-      $("#bugForm").submit(function (e) {
-        e.preventDefault();
-        const formData = $(this).serialize();
-        $.post("/api/bugs", formData, () => loadBugs());
+    const loadBugs = () => {
+      $.get(apiUrl, (data) => {
+        console.log(data);
+        const rows = data.map(
+          (bug) =>
+            `<tr>
+              <td>${bug.title}</td>
+              <td>${bug.description}</td>
+              <td>${bug.assignee}</td>
+              <td>${new Date(bug.time).toLocaleString()}</td>
+              <td>${bug.status}</td>
+            </tr>`
+        );
+        $("#bugTable tbody").html(rows.join(""));
+        $("#bugTable").DataTable();
+      }).fail((xhr) => {
+        console.error("Error loading bugs:", xhr.status, xhr.statusText);
       });
+    };
 
-      loadBugs();
-    });
-  </script>
+    loadBugs();
+  });
+</script>
 </body>
 </html>
